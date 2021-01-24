@@ -7,17 +7,26 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EchoServerSocket {
-    ServerSocket server;
-    List<Connection> clients = new LinkedList<>();
+    private ServerSocket server;
+    private List<Connection> clients = new LinkedList<>();
+    private int countUsers = 0;
+
+    public int getCountUsers() {
+        return countUsers;
+    }
+
+    public void setCountUsers(int countUsers) {
+        this.countUsers = countUsers;
+    }
 
     public void start(int port) {
         try {
             server = new ServerSocket(port);
             while (true) {
-                System.out.println("waiting for client");
+                System.out.println("there is " + countUsers + " users in the chat");
                 Socket socket = server.accept();
                 clients.add(new Connection(socket, this));
-                System.out.println("client is found. waiting for another client");
+                countUsers++;
             }
         } catch (IOException e) {
             throw new IllegalStateException(e);

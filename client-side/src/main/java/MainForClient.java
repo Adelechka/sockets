@@ -21,7 +21,9 @@ public class MainForClient {
                 System.out.println("enter your message:");
                 String message = scanner.nextLine();
                 client.sendMessage(name + ": '" + message + "'");
-                System.out.println(name + ", your message is sent with text: '" + message + "'");
+                if (message.equals("exit")) {
+                    System.exit(0);
+                }
             }
         } catch (IOException e) {
             throw new IllegalArgumentException(e);

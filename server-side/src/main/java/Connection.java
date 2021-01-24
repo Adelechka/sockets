@@ -30,9 +30,14 @@ public class Connection {
     private Runnable receiverMessagesTask = () -> {
         while (true) {
             String messageFromClient = fromClient.nextLine();
-            if (messageFromClient != null) {
+            if (messageFromClient != null && !messageFromClient.endsWith("'exit'")) {
                 System.out.println(messageFromClient);
                 server.sendAll(messageFromClient);
+            } else if (messageFromClient.endsWith("'exit'")) {
+                server.sendAll(messageFromClient.split(":")[0] + " left the chat");
+                server.setCountUsers(server.getCountUsers() - 1);
+                server.sendAll("there is " + server.getCountUsers() + " users in the chat");
+                System.out.println("there is " + server.getCountUsers() + " users in the chat");
             }
         }
     };
